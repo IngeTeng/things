@@ -1,0 +1,9 @@
+{
+    "name": "imooc/test",
+    "description": "test composer",
+    "type": "library",
+    "require": {
+
+        "symfony/http-foundation": "^3.2"
+    }
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>高考搜校通</title>
+    <meta name="description" content="overview & stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/weui.min.css" rel="stylesheet">
+    <link href="css/input.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <style type="text/css">
+*{margin:0;padding:0;outline:none;}
+body{padding:20px;font:12px "微软雅黑";background:#FFF;}
+ul li{list-style:none;}
+#schoolName{width:200px;height:30px;line-height:30px;border:1px solid #ccc;padding:0 8px;cursor:pointer;font-size:12px;}
+.provinceSchool{display:none;position:absolute;width:580px;height:auto;border:1px solid #72B9D7;}
+.provinceSchool .title{width:100%;height:30px;background:#72B9D7;cursor:move;}
+.provinceSchool .title span{margin-left:10px;font-weight:600;color:#FFF;line-height:30px;}
+.provinceSchool .proSelect{width:550px;text-align:center;padding:15px 0;}
+.provinceSchool .proSelect select{width:190px;}
+.provinceSchool .proSelect span{padding-left:10px;}
+.provinceSchool .proSelect input{display:none;}
+.provinceSchool .schoolList{width:550px;height:180px;padding:10px 0;overflow-y:auto;border:1px solid #ddd;}
+.provinceSchool .schoolList ul{width:510px;clear:both;}
+.provinceSchool .schoolList ul span.entertext{display:block;height:180px;font:normal 16px/180px 'microsoft yahei';color:#999;}
+.provinceSchool .schoolList ul li{float:left;text-align:center;width:160px;margin:5px;height:25px;line-height:25px;cursor:pointer;background:#fafafa;border-radius:3px;}
+.provinceSchool .schoolList ul li.DoubleWidthLi{overflow:hidden;}
+.provinceSchool .schoolList ul li:hover{background:#72B9D7;color:#fff;}
+.provinceSchool .button{width:100%;height:40px;margin-top:8px;}
+.provinceSchool .button button{float:right;height:30px;margin-right:15px;padding:2px 15px;background:#72B9D7;border:none;color:#FFF;font-weight:600;cursor:pointer;border-radius:3px;}
+.provinceSchool .button button:hover{background:#2e90bd;}
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/school.js"></script>
+    <script type="text/javascript">
+
+
+$(function(){
+    //province;
+    //proSchool;
+    //学校名称 激活状态
+    $("#schoolName").focus(function(){
+      var top = $(this).position().top+$(this).height()+2;
+      var left = $(this).position().left;
+      $("div[class='provinceSchool']").css({top:top,left:left});
+      $("div[class='provinceSchool']").show();
+    });
+    //初始化省下拉框
+    var provinceArray = "";
+    var provicneSelectStr = "";
+    for(var i=0,len=province.length;i<len;i++){
+      provinceArray = province[i];
+      provicneSelectStr = provicneSelectStr + "<option value='"+provinceArray[0]+"'>"+provinceArray[1]+"</option>"
+    } 
+    $("div[class='proSelect'] select").html(provicneSelectStr);
+
+
+    //初始化学校列表
+    var selectPro = $("div[class='proSelect'] select").val();
+    var schoolUlStr = "";
+    var schoolListStr = new String(proSchool[selectPro]);
+    var schoolListArray = schoolListStr.split(",");
+    
+    schoolListArray.sort();
+
+    var tempSchoolName = "";
+    for(var i=0,len=schoolListArray.length;i<len;i++){
+      tempSchoolName = schoolListArray[i];
+      // if(tempSchoolName.length>13){
+      //   schoolUlStr = schoolUlStr + "<li class='DoubleWidthLi' title="+schoolListArray[i]+">"+schoolListArray[i]+"</li>"
+      // }else {
+      //   schoolUlStr = schoolUlStr + "<li>"+schoolListArray[i]+"</li>"
+      // }
+      schoolUlStr = schoolUlStr + "<option value='"+schoolListArray[i]+"'>"+schoolListArray[i]+"</option>"
+
+    }
+    $("div[class='schoolList'] select").html(schoolUlStr);
+
+    //省切换事件
+    $("div[class='proSelect'] select").change(function(){
+      if("99"!=$(this).val()){
+        $("div[class='proSelect'] span").show();
+        $("div[class='proSelect'] input").hide();
+        schoolUlStr = "";
+        schoolListStr = new String(proSchool[$(this).val()]);
+        schoolListArray = schoolListStr.split(",");
+        for(var i=0,len=schoolListArray.length;i<len;i++){
+          tempSchoolName = schoolListArray[i];
+          // if(tempSchoolName.length>13){
+          //   schoolUlStr = schoolUlStr + "<li class='DoubleWidthLi' title="+schoolListArray[i]+">"+schoolListArray[i]+"</li>"
+          // }else {
+          //   schoolUlStr = schoolUlStr + "<li>"+schoolListArray[i]+"</li>"
+          // }
+                schoolUlStr = schoolUlStr + "<option value='"+schoolListArray[i]+"'>"+schoolListArray[i]+"</option>"
+
+        }
+        $("div[class='schoolList'] select").html(schoolUlStr);
+      }
+      // else {
+      //   $("div[class='schoolList'] ul").html("<span class='entertext'>请在输入框内手动输入学校！</span>");
+      //   $("div[class='proSelect'] span").hide();
+      //   $("div[class='proSelect'] input").show();
+      // }
+    });
+    //学校列表mouseover事件
+    $("div[class='schoolList'] ul li").live("mouseover",function(){
+      $(this).css("background-color","#72B9D7");
+    });
+    //学校列表mouseout事件
+    $("div[class='schoolList'] ul li").live("mouseout",function(){
+      $(this).css("background-color","");
+    });
+    //学校列表点击事件
+    $("div[class='schoolList'] ul li").live("click",function(){
+      $("#schoolName").val($(this).html());
+      $("div[class='provinceSchool']").hide();
+    });
+    //按钮点击事件
+    $("div[class='button'] button").live("click",function(){
+      var flag = $(this).attr("flag");
+      if("0"==flag){
+        $("div[class='provinceSchool']").hide();
+      }else if("1"==flag){
+        var selectPro = $("div[class='proSelect'] select").val();
+        if("99"==selectPro){
+          $("#schoolName").val($("div[class='proSelect'] input").val());
+        }
+        $("div[class='provinceSchool']").hide();
+      }
+    });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+   $("#btnsubmit").click(function(){
+      var _score = $("#score").val();
+      var _schoolPro = $("#schoolPro").val();
+      var _kelei = $("#kelei").val();
+      var _school = $("#school").val();
+      $.ajax({
+                  type        : 'POST',
+                  data        : {
+                      score  : _score,
+                      kelei  : _kelei
+                      schoolPro: _schoolPro
+                      school: _school
+                  },
+                  dataType:     'json',
+                  url :         'xxx',
+                  success :     function(data){
+                            var code = data.code;
+                            var msg  = data.msg;
+                            switch(code){
+                              case 1:
+                                layer.alert(msg, {icon: 6,shade: false}, function(index){
+                                  parent.location.reload();
+                                });
+                                break;
+                              default:
+                                layer.alert(msg, {icon: 5});
+                            }
+                          }
+                });
+  ​});
+});
+
+</script>
+</head>
+<body>
+<div class="sxttitle">搜校通</div>
+<div class="sxttip">全国首款根据高考分数匹配大学及专业智能系统</div>
+<div class="sxttip">你的考分能上啥大学、啥专业，搜校通，扫一扫</div>
+<div  style="margin-top: 40px" align="center" >
+
+<form class="form-inline" role="form" >
+<div class="form-group" >
+    <label class="form-label">考生分数</label>&nbsp;&nbsp;&nbsp;
+    <input type="text" style="width: 175px" class="form-control" name="score" id="score" value="" placeholder="请输入您的高考分数">
+</div>
+</form>
+
+
+    <form class="form-inline" role="form" >
+      <table>
+        <tr>
+    <div class="form-group">
+     <th><label class="form-label">文科/理科</label>&nbsp;&nbsp;&nbsp;</th>
+     <th>
+     <select name="kelei" style="width:190px;" id="kelei" class="form-control" value="1">
+         <option value=1>理科</option>
+         <option value=2>文科</option>
+     </select>
+   </th>
+    </div>
+    </tr>
+  </table>
+</form>
+    <form class="form-inline" role="form" >
+      <table>
+        <tr>
+        <div class="form-group">
+          <th>
+            <label class="form-label">生源地</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>
+            <input type="text" style="width: 175px" class="form-control" name="telnum" id="telnum" value="陕西省" ></th>
+        </div>
+      </tr>
+      </table>
+    </form>
+    <form class="form-inline" role="form" >
+        <div class="form-group">
+            <table>
+              <tr>
+          <div class="form-group">
+            <th>
+            <label class="form-label">拟报大学省份</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>
+            <div class="proSelect" >
+                <select style="width:135px;" class="form-control" id="schoolPro"></select>
+            </div>
+          </th>
+          </div>
+          </tr>
+      </form>
+
+
+        <form class="form-inline" role="form">
+          <div class="form-group">
+             <table>
+          <tr>
+            <th>
+            <label class="form-label">拟报大学</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+           <th>
+                <div class="schoolList">
+                <select style="width:165px;" class="form-control" id="school"></select>
+                </div>
+              </th>
+              </tr>
+        </table>
+          </div>
+        
+
+    </form>
+
+
+<div  id = "btnsubmit" class="weui_opr_area" style="margin-top: 35px;">
+    <p class="weui_btn_area">
+    <div class="weui_btn weui_btn_primary yes" style="position:relative;top:10px;background-color:#00BEEE;" onclick="window.location.href= 'yuce.html';">下一步</div>
+    </p>
+</div>
+</body>
+</html>

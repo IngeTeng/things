@@ -1,0 +1,5 @@
+<?php
+
+header('test.php');
+
+?>

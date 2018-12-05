@@ -1,0 +1,100 @@
+<?php
+
+header('Content-Type: text/html; charset=UTF-8');
+//$APPID="wxeaa39a57cb23065a";
+//$APPSECRET="63ab220ab9938ad1371fc948debb0fb2";
+
+
+
+//$APPID="wx5917f1647fffeabc";
+//$APPSECRET="a4517615ac8b196b7c2b2c1630995a32";
+
+$APPID="wxf1b0a589ad02add5";
+$APPSECRET="2fea99f35003892622c6f1e9428bc33b";
+$TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
+
+$json=file_get_contents($TOKEN_URL);
+$result=json_decode($json,true);
+
+$ACC_TOKEN=$result['access_token'];
+
+//$ACC_TOKE="3z6GK9w5lk3gNwUY2JXWHp4GmzhX0_8zVVeq2aiNvkwup30c3Y2DCt27GsflZNAR2LH2i0984EQNC9yKgsPvJTMIRsnQ16Dp8BBxX2JDk1glpfnbqohyS-3iLNbZ86-XAIQhAIAMUC";
+
+//print_r($ACC_TOKEN);
+
+$data='{
+		 "button":[
+		 {
+			   "name":"公共查询",
+			   "sub_button":[
+				{
+				   "type":"click",
+				   "name":"天气查询",
+				   "key":"tianQi"
+				},
+				{
+				   "type":"view",
+				   "name":"公交查询",
+				   "url":"http://m.8684.cn"
+				},
+				{
+				   "type":"view",
+				   "name":"翻译查询",
+				   "url":"http://m.youdao.com/translate?vendor=fanyi.web"
+				},
+				{
+				   "type":"view",
+				   "name":"快递查询",
+				   "url":"http://m.kuaidi100.com/all/index.jsp"
+				}]
+		  },
+		  {
+			   "name":"西安本地",
+			   "sub_button":[
+				{
+				   "type":"view",
+				   "name":"西安简介",
+                   "url" :"http://wapbaike.baidu.com/subview/2155/13220246.htm?fr=aladdin&ref=wise&ssid=0&from=2001a&uid=0&pu=usm@1,sz@1320_2003,ta@iphone_1_9.3_1_10.9&bd_page_type=1&baiduid=432EA28EB6256D1ED7CC6D9CFE14D9AF&tj=Xv_1_0_10_title"
+				},
+				{
+				   "type":"view",
+				   "name":"西安景点",
+				   "url":"https://m.baidu.com/from=2001a/s?word=%E8%A5%BF%E5%AE%89%E6%99%AF%E7%82%B9%E5%A4%A7%E5%85%A8&sa=ts_1&ts=8661803&t_kt=0&ie=utf-8&rsv_t=0496vVO072L1sPl7WUPYOuE3DEGZYxHACtK1yRV5h40am1QlY8%252BAVhaj93o&rsv_pq=10797907256697659841&ss=101&rsv_sug4=5919&inputT=5913&oq=%E5%BF%AB%E9%80%92%E6%9F%A5%E8%AF%A2&rq=%E8%A5%BF%E5%AE%89%E6%99%AF%E7%82%B9#|act=activity%2Fclbus_trav%2Ftravel%3D%257B%2522query%2522%253A%2522%25E8%25A5%25BF%25E5%25AE%2589%2522%252C%2522city%2522%253A%2522%25E8%25A5%25BF%25E5%25AE%2589%2522%252C%2522srcid%2522%253A%252246110%2522%252C%2522order%2522%253A%25223%2522%252C%2522resource_id%2522%253A%252213060%2522%252C%2522title%2522%253A%2522%25E8%25A5%25BF%25E5%25AE%2589_%25E5%25BF%2585%25E6%25B8%25B8%25E6%2599%25AF%25E7%2582%25B9%2522%252C%2522cardid%2522%253Anull%257D"
+				},
+				{
+				   "type":"view",
+				   "name":"西安美食",
+				   "url":"http://lvyou.baidu.com/xian?fr=mainSearch&from=weizhan#dining"
+				},
+				{
+				   "type":"view",
+				   "name":"住在西安",
+				   "url":"http://m.leju.com/touch/index/?city=sx"
+				}]
+		   },
+		   {
+			   "type":"click",
+			   "name":"功能介绍",
+			   "key":"gongnengjieshao"
+		   }]
+       }';
+
+        $MENU_URL="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
+        
+        $ch = curl_init($MENU_URL);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($data)));
+        $info = curl_exec($ch);
+        $menu = json_decode($info);
+        print_r($info);		//创建成功返回：{"errcode":0,"errmsg":"ok"}
+        
+        if($menu->errcode == "0"){
+            echo "菜单创建成功";
+        }else{
+            echo "菜单创建失败";
+        }
+
+
+?>

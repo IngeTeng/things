@@ -1,0 +1,125 @@
+
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>逆地理编码</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=d81ce6838d83adba816f283b33bac2a0&plugin=AMap.Geocoder"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script src="Tajax.js"></script>
+
+    <style>
+        #container{
+            width: 100%;
+            height: 95%;
+            margin-top: 5%;
+        }
+        input[type=button]{
+            width: auto;
+            height: auto;
+            font-size: 20px;
+            color: #433939;
+            padding: 5px;
+        }
+        input[type=text]{
+            width: 600px;
+            height: auto;
+            border: 1px solid #eeeeee;
+            font-size: 20px;
+            color: #433939;
+            padding:5px;
+        }
+
+
+    </style>
+
+
+</head>
+
+<body>
+<input type="text" id="textid" value="北京市"><input type="button" onclick="on_button()" value="查询"><br>
+    定点坐标：<span id="span_id1"></span><br>
+    地理位置：<span id="span_id2"></span><br>
+
+
+
+<div id="container"></div>
+<div id="tip">
+    <span id="result"></span>
+</div>
+
+
+<script type="text/javascript">
+//
+// 这个功能用了2个KEY，一个负责调用地图，另外一个负责调用逆地图查询
+//
+var markers = [];
+function button_mpa(v){
+    Tajax.send("get","http://restapi.amap.com/v3/geocode/geo?address="+v+"&key=c9ccfbb589c0430825c139fa33ba20ba","", function (data) {
+        var obj=JSON.parse(data.Text);
+        var location=obj.geocodes[0].location;
+        var  lnglatXY=location.split(",");
+
+        map.center=lnglatXY;
+        map.panTo(lnglatXY);//平移至中心点
+        if(markers.length!=0){
+            map.remove(markers);//删除原有的点
+        }
+        var marker = new AMap.Marker({
+            map: map,
+            position:lnglatXY
+        });//创建点
+
+        markers.push(marker);//将点进行保存
+    },1500);
+}
+
+function on_button(){
+    button_mpa(document.getElementById("textid").value);
+}
+
+button_mpa(document.getElementById("textid").value);
+
+
+var map = new AMap.Map("container", {
+    resizeEnable: true,
+    zoom: 18
+});
+
+var clickEventListener = map.on('click', function(e) {
+    if(markers.length!=0){
+        map.remove(markers);//删除原有的点，不删除是保留在地图
+    }
+    var lnglatXY=[e.lnglat.getLng(),e.lnglat.getLat()];
+
+    map.setZoomAndCenter(18, lnglatXY);//地图定点后的缩放级别18
+    var marker = new AMap.Marker({
+        map: map,
+        position:lnglatXY
+    });//创建点
+    marker.setTitle(lnglatXY.toString());//创建点的title提示，鼠标悬停
+    markers.push(marker);//将点进行保存
+    var geocoder = new AMap.Geocoder({
+        radius: 1000,
+        extensions: "all"
+    });
+    geocoder.getAddress(lnglatXY, function(status, result) {
+
+        if (status === 'complete' && result.info === 'OK') {
+            var address = result.regeocode.formattedAddress; //返回地址描述
+            //alert("当前定点坐标"+'\n'+lnglatXY+'\n'+address);
+            document.getElementById("span_id1").innerText=lnglatXY;
+            document.getElementById("span_id2").innerText=address;
+
+        }
+    });
+    map.setFitView();
+});
+
+</script>
+</body>
+</html>

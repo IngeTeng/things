@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head runat="server">     
+<meta content="IE=7.0000" http-equiv="X-UA-Compatible"/>  
+<title>pdf阅读</title>  
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>  
+<script type="text/javascript" src="js/jquery.media.js"></script>  
+<script type="text/javascript">      
+$(function () {          
+    $('a.media').media({ width: 800, height: 800 });               });  
+</script>  
+</head>  
+<body>      
+    <form id="form1" runat="server">     
+        <div id="main">  <a class="media" href="test.pdf" id="PDFFile">西方文学赏析</a>  
+        </div>      
+    </form>  
+</body>  
+</html>    

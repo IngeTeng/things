@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>确认订单</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="amazeui/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="default/style.css"/>
+    <script src="amazeui/js/jquery.min.js"></script>
+    <script src="amazeui/js/amazeui.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <header data-am-widget="header" class="am-header am-header-default my-header">
+        <!--首页-->
+        <div class="am-header-left am-header-nav">
+            <a href="#" class="">
+                <i class="am-header-icon am-icon-chevron-left"></i>
+            </a>
+        </div>
+        <!--主标题-->
+        <h1 class="am-header-title">
+            <a href="#" class="">
+                确认订单
+            </a>
+        </h1>
+        <!--右侧侧边栏-->
+        <div class="am-header-right am-header-nav">
+            <a href="#right-link" class="" data-am-offcanvas="{target: '#doc-oc-demo3'}">
+                <i class="am-header-icon am-icon-bars"></i>
+            </a>
+            <!-- 侧边栏内容 -->
+            <div id="doc-oc-demo3" class="am-offcanvas">
+                <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+                    <div class="am-offcanvas-content">
+                        <ul class="un-style-list">
+                            <li><a href="">首页</a></li>
+                            <li><a href="">成为经销商</a></li>
+                            <li><a href="">购物车</a></li>
+                            <li><a href="">个人中心</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--会员信息-->
+    <div class="uchome-info">
+        <div class="uchome-info-uimg">
+            <img src="default/img1.jpg" />
+        </div>
+        <div class="uchome-info-uinfo">
+            <p>会员名字</p>
+            <p>会员等级：<span class="red">普通会员</span></p>
+            <p>余额：<span class="red">￥10000.00</span></p>
+        </div>
+    </div>
+    <div class="mg10">
+        <!--其他菜单-->
+        <ul class="am-list am-list-border">
+            <li class="">
+                <a href="" class="am-cf"><i class="am-icon-map-marker am-icon-fw am-fl" style="width: 5%"></i>
+                <span class="am-fl" style="width: 85%;font-size: 10px">收货人：小李 <br>
+                    陕西省某某市某某区某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某
+                </span>
+                <i class="am-fr am-icon-caret-right am-fr" style="width: 5%"></i></a>
+            </li>
+        </ul>
+    </div>
+    <!--订单菜单-->
+    <div class="am-cf cart-panel">
+        <div class="cart-list-panel">
+            <ul class="am-avg-sm-1 cart-panel-ul">
+                <li>
+                    <div class="imgpanel"><a href="#"><img src="default/img3.jpg" class="am-img-responsive"></a></div>
+                    <div class="infopanel">
+                        <h3><a href="#">450ml柔顺丰盈护发素正品</a></h3>
+                        <p>品牌：乔治卡罗尔</p>
+                        <p>价格：<span class="red2 bold">78.00</span> 元  X <input class="am-input-sm txt-qty" type="number" value="1"></p>
+                        <p><span class="am-fr"><a class="am-badge am-badge-danger am-round">删除</a></span>合计：<span class="red2 bold">60</span>元</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="paoduct-title-panel mg10">
+        <p>商品金额：￥<span class="am-text-danger">60</span>元</p>
+        <p>运费：￥<span class="am-text-warning">20</span>元</p>
+    </div>
+    <div class="cart_foot am-cf mg10">
+        <span class="am-fr">
+            合计：<span class="red2 bold" id="total_amount">￥89</span>元
+        </span>
+    </div>
+    <div class="cart-tool">
+        <a class="am-btn am-btn-sm am-btn-success" href="#">
+            <i class="am-icon-chevron-left"></i>
+            返回
+        </a>
+        <a class="am-btn am-btn-sm am-btn-warning" href="#">
+            <i class="am-icon-shopping-cart"></i>
+            结账
+        </a>
+    </div>
+    <!--底部-->
+    <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+        <div class="am-footer-miscs ">
+            <p>CopyRight©2014 AllMobilize Inc.</p>
+            <p>京ICP备13033158</p>
+        </div>
+    </footer>
+    <!--底部工具栏-->
+    <div data-am-widget="navbar" class="am-navbar am-cf my-nav-footer " id="">
+        <ul class="am-navbar-nav am-cf am-avg-sm-4 my-footer-ul">
+            <li>
+                <a href="#" class="">
+                    <span class="am-icon-home"></span>
+                    <span class="am-navbar-label">首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="###" class="">
+                    <span class=" am-icon-users"></span>
+                    <span class="am-navbar-label">成为经销商</span>
+                </a>
+            </li>
+            <li>
+                <a href="###" class="">
+                    <span class=" am-icon-shopping-cart"></span>
+                    <span class="am-navbar-label">购物车</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="">
+                    <span class=" am-icon-user"></span>
+                    <span class="am-navbar-label">个人中心</span>
+                </a>
+            </li>
+        </ul>
+        <script>
+            function showFooterNav(){
+                $("#footNav").toggle();
+            }
+        </script>
+    </div>
+</div>
+</body>
+</html>
